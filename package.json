@@ -1,0 +1,19 @@
+{
+  "name": "type-is",
+  "version": "0.0.0",
+  "description": "Robust and comprehensive type checking library for node and the browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WHenderson/type-is.git"
+  },
+  "author": "Will Henderson <whenderson.github@gmail.com> (https://github.com/WHenderson)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WHenderson/type-is/issues"
+  },
+  "homepage": "https://github.com/WHenderson/type-is#readme"
+}
