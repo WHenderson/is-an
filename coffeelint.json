@@ -38,7 +38,7 @@
     "level": "error"
   },
   "line_endings": {
-    "level": "error",
+    "level": "ignore",
     "value": "windows"
   },
   "max_line_length": {
