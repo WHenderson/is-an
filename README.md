@@ -16,9 +16,9 @@ Robust and comprehensive type checking library for node and the browser
 
 ### node
 ```js
-var typeIs = require('is-an');
+var is = require('is-an');
 
-console.log('is number?', typeIs.Number(1));
+console.log('is number?', is.Number(1));
 // is number? true
 ```
 
@@ -30,7 +30,7 @@ console.log('is number?', typeIs.Number(1));
     </head>
     <body>
         <script>
-            console.log('is number?', typeIs.Number(1));
+            console.log('is number?', is.Number(1));
             // is number? true
         </script>
     </body>
@@ -44,8 +44,8 @@ require.config({
       "is-an": "is-an.web.min.js"
   }
 });
-require(['is-an'], function (typeIs) {
-    console.log('is number?', typeIs.Number(1));
+require(['is-an'], function (is) {
+    console.log('is number?', is.Number(1));
     // is number? true
 });
 ```
@@ -60,7 +60,7 @@ Returns a string representing the basic type of the provided value.
 ### [`(value, typeName) -> Boolean`](examples/typeName.js)
 Returns a true iff the base type of `value` matches `typeName`.
 
-### [`.<TypeName>(value) -> Boolean`](examples/typeIs.js)
+### [`.<TypeName>(value) -> Boolean`](examples/is.js)
 Returns true iff `value` is of type `TypeName`.
 
 Supported types

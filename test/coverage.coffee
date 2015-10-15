@@ -1,10 +1,10 @@
 assert = require('chai').assert
 
 suite('coverage', () ->
-  typeIs = null
+  is_ = null
 
   setup(() ->
-    typeIs = require('../dist/is-an.coffee')
+    is_ = require('../dist/is-an.coffee')
   )
 
   class Base
@@ -94,7 +94,7 @@ suite('coverage', () ->
         head(func[name], names.concat([name]))
 
       return
-    head(typeIs)
+    head(is_)
 
     # Result rows
     for input in inputs
@@ -120,7 +120,7 @@ suite('coverage', () ->
 
         return
 
-      check(typeIs)
+      check(is_)
 
     columnWidths = rows[0].map(
       (element, iColumn) ->

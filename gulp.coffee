@@ -14,7 +14,7 @@ gCoffeeLint = require('gulp-coffeelint')
 gCoverageEnforcer = require("gulp-istanbul-enforcer");
 
 DIST_EXPORTS = (file) -> '_'
-DIST_NAMESPACE = (file) -> 'typeIs'
+DIST_NAMESPACE = (file) -> 'is'
 
 pipeCoffee = gLazy()
 .pipe(gUmd, {
