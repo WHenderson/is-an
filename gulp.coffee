@@ -75,9 +75,9 @@ gulpClean = () ->
 gulpBuild = () ->
   gulp
   .src([
-      'src/type-is.coffee'
+      'src/is-an.coffee'
   ])
-  .pipe(gConcat('type-is.coffee', { newLine: '\r\n' }))
+  .pipe(gConcat('is-an.coffee', { newLine: '\r\n' }))
   .pipe(gCoffeeLint())
   .pipe(gCoffeeLint.reporter())
   .pipe(gMirror(
@@ -85,7 +85,7 @@ gulpBuild = () ->
       (
         gLazy()
         .pipe(gSourceMaps.init)
-        .pipe(gConcat, 'type-is.coffee')
+        .pipe(gConcat, 'is-an.coffee')
         .pipe(gCoffee, { bare: true })
         .pipe(
           gMirror,
@@ -202,12 +202,12 @@ gulp.task('dist-git', ['dist-version'], (cb) ->
   cfgNpm = require('./package.json')
 
   exec('git add bower.json')
-  exec('git add -f dist/type-is.coffee')
-  exec('git add -f dist/type-is.node.js')
-  exec('git add -f dist/type-is.umd.js')
-  exec('git add -f dist/type-is.umd.min.js')
-  exec('git add -f dist/type-is.web.js')
-  exec('git add -f dist/type-is.web.min.js')
+  exec('git add -f dist/is-an.coffee')
+  exec('git add -f dist/is-an.node.js')
+  exec('git add -f dist/is-an.umd.js')
+  exec('git add -f dist/is-an.umd.min.js')
+  exec('git add -f dist/is-an.web.js')
+  exec('git add -f dist/is-an.web.min.js')
   exec('git checkout head')
   exec("git commit -m \"Version #{cfgNpm.version} for distribution\"")
   exec("git tag -a v#{cfgNpm.version} -m \"Add tag v#{cfgNpm.version}\"")

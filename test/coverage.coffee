@@ -4,7 +4,7 @@ suite('coverage', () ->
   typeIs = null
 
   setup(() ->
-    typeIs = require('../dist/type-is.coffee')
+    typeIs = require('../dist/is-an.coffee')
   )
 
   class Base

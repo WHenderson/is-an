@@ -1,5 +1,5 @@
 {
-  "name": "type-is",
+  "name": "is-an",
   "author": "Will Henderson <whenderson.github@gmail.com> (https://github.com/WHenderson)",
   "version": "0.0.0",
   "description": "Robust and comprehensive type checking library for node and the browser",
@@ -8,20 +8,20 @@
     "checking"
   ],
   "bugs": {
-    "url": "https://github.com/WHenderson/type-is/issues"
+    "url": "https://github.com/WHenderson/is-an/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WHenderson/type-is.git"
+    "url": "git+https://github.com/WHenderson/is-an.git"
   },
-  "homepage": "https://github.com/WHenderson/type-is#readme",
+  "homepage": "https://github.com/WHenderson/is-an#readme",
   "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/gulp test",
     "prepublish": "node_modules/.bin/gulp test"
   },
 
-  
+
   "license": "Apache-2.0",
   "devDependencies": {
     "chai": "^3.0.0",
@@ -46,5 +46,5 @@
     "lodash": "^3.10.0",
     "mocha": "^2.2.5"
   }
-  
+
 }

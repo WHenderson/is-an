@@ -1,22 +1,22 @@
-# type-is
+# is-an
 Robust and comprehensive type checking library for node and the browser
 
-[![Build Status](https://travis-ci.org/WHenderson/type-is.svg?branch=master)](https://travis-ci.org/WHenderson/type-is)
-[![Coverage Status](https://coveralls.io/repos/WHenderson/type-is/badge.svg?branch=master&service=github)](https://coveralls.io/github/WHenderson/type-is?branch=master)
+[![Build Status](https://travis-ci.org/WHenderson/is-an.svg?branch=master)](https://travis-ci.org/WHenderson/is-an)
+[![Coverage Status](https://coveralls.io/repos/WHenderson/is-an/badge.svg?branch=master&service=github)](https://coveralls.io/github/WHenderson/is-an?branch=master)
 
 ## Installation
 
 ### Node
-    npm install type-is
+    npm install is-an
 
 ### Web
-    bower install type-is
+    bower install is-an
 
 ## Usage
 
 ### node
 ```js
-var typeIs = require('type-is');
+var typeIs = require('is-an');
 
 console.log('is number?', typeIs.Number(1));
 // is number? true
@@ -26,7 +26,7 @@ console.log('is number?', typeIs.Number(1));
 ```html
 <html>
     <head>
-        <script type="text/javascript" src="type-is.web.min.js"></script>
+        <script type="text/javascript" src="is-an.web.min.js"></script>
     </head>
     <body>
         <script>
@@ -41,10 +41,10 @@ console.log('is number?', typeIs.Number(1));
 ```js
 require.config({
   paths: {
-      "type-is": "type-is.web.min.js"
+      "is-an": "is-an.web.min.js"
   }
 });
-require(['type-is'], function (typeIs) {
+require(['is-an'], function (typeIs) {
     console.log('is number?', typeIs.Number(1));
     // is number? true
 });

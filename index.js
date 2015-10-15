@@ -1,1 +1,1 @@
-module.exports = require('./dist/type-is.node.js');
+module.exports = require('./dist/is-an.node.js');
