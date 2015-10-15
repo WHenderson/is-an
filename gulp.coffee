@@ -213,6 +213,7 @@ gulp.task('dist-git', ['dist-version'], (cb) ->
   exec("git tag -a v#{cfgNpm.version} -m \"Add tag v#{cfgNpm.version}\"")
   exec('git checkout master')
   exec('git push origin --tags')
+  exec('npm publish')
 
   cb()
   return
