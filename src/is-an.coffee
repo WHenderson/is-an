@@ -1,6 +1,6 @@
 toString = (x) -> ({}).toString.call(x)
 
-literal = (x) -> typeof x != 'object' and not isAn.Null(x)
+literal = (x) -> typeof x != 'object'
 
 isAn = (x, type) ->
   if type?
@@ -45,9 +45,13 @@ isAn.Boolean = (x) -> toString(x) == '[object Boolean]'
 
 isAn.Boolean.Literal = (x) -> isAn.Boolean(x) and literal(x)
 
+isAn.Boolean.Object = (x) -> isAn.Boolean(x) and not literal(x)
+
 isAn.Number = (x) -> toString(x) == '[object Number]'
 
 isAn.Number.Literal = (x) -> isAn.Number(x) and literal(x)
+
+isAn.Number.Object = (x) -> isAn.Number(x) and not literal(x)
 
 isAn.Number.NaN = (x) -> isAn.Number(x) and isNaN(x)
 
@@ -55,17 +59,29 @@ isAn.Number.Finite = (x) -> isAn.Number(x) and isFinite(x)
 
 isAn.Number.Infinite = (x) -> isAn.Number(x) and (Number(x) == Infinity or Number(x) == -Infinity)
 
+isAn.Number.Integer = (x) -> isAn.Number.Finite(x) and Math.floor(x) == Number(x)
+
 isAn.Number.Literal.NaN = (x) -> isAn.Number.NaN(x) and literal(x)
 
 isAn.Number.Literal.Finite = (x) -> isAn.Number.Finite(x) and literal(x)
 
 isAn.Number.Literal.Infinite = (x) -> x == Infinity or x == -Infinity
 
-isAn.Number.Integer = (x) -> isAn.Number.Finite(x) and Math.floor(x) == Number(x)
+isAn.Number.Literal.Integer = (x) -> isAn.Number.Finite(x) and Math.floor(x) == x
+
+isAn.Number.Object.NaN = (x) -> isAn.Number.NaN(x) and not literal(x)
+
+isAn.Number.Object.Finite = (x) -> isAn.Number.Finite(x) and not literal(x)
+
+isAn.Number.Object.Infinite = (x) -> isAn.Number.Object(x) and (Number(x) == Infinity or Number(x) == -Infinity)
+
+isAn.Number.Object.Integer = (x) -> isAn.Number.Object.Finite(x) and Math.floor(x) == Number(x)
 
 isAn.String = (x) -> toString(x) == '[object String]'
 
 isAn.String.Literal = (x) -> isAn.String(x) and literal(x)
+
+isAn.String.Object = (x) -> isAn.String(x) and not literal(x)
 
 isAn.Array =
   if Array.isArray?
@@ -75,7 +91,7 @@ isAn.Array =
 
 isAn.Object = (x) -> toString(x) == '[object Object]'
 
-isAn.Object.literal = (x) -> toString(x) == '[object Object]' and x.constructor == ({}).constructor
+isAn.Object.Literal = (x) -> toString(x) == '[object Object]' and x.constructor == ({}).constructor
 
 isAn.Function = (x) -> toString(x) == '[object Function]'
 
