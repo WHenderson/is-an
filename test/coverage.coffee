@@ -128,7 +128,9 @@ suite('coverage', () ->
           table[0].push("`isAn.#{check.typeName}(x)`")
           for inputFunc,iInput in inputs
             isType = check(inputFunc())
-            assert(isAn.Boolean.Literal(isType))
+            assert(isAn.Boolean.Literal(isType), 'correct result type')
+            assert.equal(check, isAn(check.typeName, { returnChecker: true }), 'same function')
+            assert.equal(isAn(inputFunc(), check.typeName), isType, 'identical results')
 
             table[1 + iInput].push(
               if isType then 'TRUE' else ''
@@ -136,6 +138,10 @@ suite('coverage', () ->
 
           return
         )
+  test('invalid type name', () ->
+    assert.isUndefined(isAn(1, 'unknown'))
+    assert.isUndefined(isAn('unknown', { returnChecker: true }))
+  )
 
   suite('results tables', () ->
     # string padd/truncate
@@ -213,4 +219,21 @@ suite('coverage', () ->
     return
   )
 
+  test('unknown type', () ->
+    # monkey patch the types
+    n = isAn.Number
+    o = isAn.Object
+
+    try
+      isAn.Number = () -> false
+      assert.isUndefined(isAn(1))
+
+      isAn.Object = () -> true
+      assert.equal(isAn(1), 'Object')
+
+    finally
+      isAn.Number = n
+      isAn.Object = o
+
+  )
 )
