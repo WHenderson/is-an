@@ -16,10 +16,10 @@ Robust and comprehensive type checking library for node and the browser
 
 ### node
 ```js
-var is = require('is-an');
+var isAn = require('is-an');
 
-console.log('is number?', is.Number(1));
-// is number? true
+console.log('is an array?', isAn.Array([]));
+// is an array? true
 ```
 
 ### web (global)
@@ -30,8 +30,8 @@ console.log('is number?', is.Number(1));
     </head>
     <body>
         <script>
-            console.log('is number?', is.Number(1));
-            // is number? true
+            console.log('is an array?', isAn.Array([]));
+            // is an array? true
         </script>
     </body>
 </html>
@@ -44,9 +44,9 @@ require.config({
       "is-an": "is-an.web.min.js"
   }
 });
-require(['is-an'], function (is) {
-    console.log('is number?', is.Number(1));
-    // is number? true
+require(['is-an'], function (isAn) {
+  console.log('is an array?', isAn.Array([]));
+  // is an array? true
 });
 ```
 
