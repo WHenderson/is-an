@@ -1,7 +1,7 @@
 {
   "name": "is-an",
   "author": "Will Henderson <whenderson.github@gmail.com> (https://github.com/WHenderson)",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Robust and comprehensive type checking library for node and the browser",
   "keywords": [
     "type",
