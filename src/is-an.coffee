@@ -18,7 +18,7 @@ isAn = (x, type) ->
         if not func?
           return undefined
 
-    if options?.getter
+    if options?.returnChecker
       # return the checker function
       return func
     else
