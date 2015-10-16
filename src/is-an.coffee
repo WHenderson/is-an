@@ -61,7 +61,7 @@ isAn.Number.Literal.Finite = (x) -> isAn.Number.Finite(x) and literal(x)
 
 isAn.Number.Literal.Infinite = (x) -> x == Infinity or x == -Infinity
 
-isAn.Number.Integer = (x) -> isAn.Number.Finite(x) and Math.floor(x) == x
+isAn.Number.Integer = (x) -> isAn.Number.Finite(x) and Math.floor(x) == Number(x)
 
 isAn.String = (x) -> toString(x) == '[object String]'
 
