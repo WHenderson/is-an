@@ -174,10 +174,10 @@ suite('coverage', () ->
       return lines.join('\r\n')
 
     compareTable = (name, table) ->
-      resultTable = tableToString(table).trim().replace(/(\r\n)|(\r)|(\n)/, '\r\n')
+      resultTable = tableToString(table).trim().replace(/(\r\n)|(\r)|(\n)/g, '\r\n')
       error = null
       try
-        inputTable = fs.readFileSync(path.join(__dirname, 'fixtures', name + '.md'), 'utf8').trim().replace(/(\r\n)|(\r)|(\n)/, '\r\n')
+        inputTable = fs.readFileSync(path.join(__dirname, 'fixtures', name + '.md'), 'utf8').trim().replace(/(\r\n)|(\r)|(\n)/g, '\r\n')
       catch ex
         error = ex
         fs.writeFileSync(path.join(__dirname, 'fixtures', name + '.md'), resultTable, 'utf8')
