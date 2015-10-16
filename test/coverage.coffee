@@ -1,10 +1,10 @@
 assert = require('chai').assert
 
 suite('coverage', () ->
-  is_ = null
+  isAn = null
 
   setup(() ->
-    is_ = require('../dist/is-an.coffee')
+    isAn = require('../dist/is-an.coffee')
   )
 
   class Base
@@ -90,11 +90,12 @@ suite('coverage', () ->
       else
         rows[0].push("`#{names.join('.')}`")
 
-      for own name of func
-        head(func[name], names.concat([name]))
+      for own subName, subFunc of func
+        if isAn.Function(subFunc)
+          head(subFunc, names.concat([subName]))
 
       return
-    head(is_)
+    head(isAn)
 
     # Result rows
     for input in inputs
@@ -115,12 +116,13 @@ suite('coverage', () ->
         else
           row.push(if func(value) then 'TRUE' else '')
 
-        for own name of func
-          check(func[name], names.concat([name]))
+        for own subName, subFunc of func
+          if isAn.Function(subFunc)
+            check(subFunc, names.concat([subName]))
 
         return
 
-      check(is_)
+      check(isAn)
 
     columnWidths = rows[0].map(
       (element, iColumn) ->

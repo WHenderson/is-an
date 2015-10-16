@@ -111,9 +111,9 @@ isAn.Float64Array = (x) -> toString(x) == '[object Float64Array]'
 
 # Give each type checker a typeName matching its distinguished function name
 setTypeNames = (func, name) ->
-  for own typeName of func
-    subFunc = func[typeName]
-    subName = name + typeName
-    subFunc.typeName = subName
-    setTypeNames(subFunc, subName + '.')
+  for own typeName, subFunc of func
+    if isAn.Function(subFunc)
+      subName = name + typeName
+      subFunc.typeName = subName
+      setTypeNames(subFunc, subName + '.')
 setTypeNames(isAn)

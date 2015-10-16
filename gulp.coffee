@@ -13,8 +13,8 @@ gUglify = require('gulp-uglify')
 gCoffeeLint = require('gulp-coffeelint')
 gCoverageEnforcer = require("gulp-istanbul-enforcer");
 
-DIST_EXPORTS = (file) -> '_'
-DIST_NAMESPACE = (file) -> 'is'
+DIST_EXPORTS = (file) -> 'isAn'
+DIST_NAMESPACE = (file) -> 'isAn'
 
 pipeCoffee = gLazy()
 .pipe(gUmd, {
