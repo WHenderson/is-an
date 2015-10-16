@@ -116,4 +116,4 @@ setTypeNames = (func, name) ->
       subName = name + typeName
       subFunc.typeName = subName
       setTypeNames(subFunc, subName + '.')
-setTypeNames(isAn)
+setTypeNames(isAn, '')
