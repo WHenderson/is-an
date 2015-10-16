@@ -73,7 +73,7 @@ isAn.Array =
   else
     (x) -> toString(x) == '[object Array]'
 
-isAn.Object = (x) -> typeof x == 'object'
+isAn.Object = (x) -> toString(x) == '[object Object]'
 
 isAn.Object.literal = (x) -> toString(x) == '[object Object]' and x.constructor == ({}).constructor
 
@@ -83,7 +83,7 @@ isAn.Arguments = (x) -> toString(x) == '[object Arguments]'
 
 isAn.Date = (x) -> toString(x) == '[object Date]'
 
-isAn.RegExp = (x) -> isAn.Object(x) and x instanceof RegExp
+isAn.RegExp = (x) -> toString(x) == '[object RegExp]'
 
 isAn.Error = (x) -> toString(x) == '[object Error]'
 
