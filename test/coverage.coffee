@@ -100,7 +100,6 @@ suite('coverage', () ->
         inputFunc.toString().replace(/(\r|\n|\s)+/g, ' ').replace(/^function \(\) {\s*(?:return)?\s*(.*?)(?:;)?\s*}$/, '`$1`')
       ])
 
-
   # type column
   test('typename', () ->
     # heading
@@ -121,6 +120,10 @@ suite('coverage', () ->
   do ->
     for check in checks
       do (check) ->
+        test("returnChecker: #{check.typeName}", () ->
+          assert.equal(isAn(check.typeName, { returnChecker: true }), check)
+        )
+
         test("type: #{check.typeName}", () ->
           table[0].push("`isAn.#{check.typeName}(x)`")
           for inputFunc,iInput in inputs
