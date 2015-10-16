@@ -1,12 +1,10 @@
 assert = require('chai').assert
+fs = require('fs')
+path = require('path')
+
+isAn = require('../dist/is-an.coffee')
 
 suite('coverage', () ->
-  isAn = null
-
-  setup(() ->
-    isAn = require('../dist/is-an.coffee')
-  )
-
   class Base
   class Derived extends Base
 
@@ -67,6 +65,9 @@ suite('coverage', () ->
     () -> new RegExp()
     () -> new RegExp('a')
 
+    () -> new Error()
+    () -> `try { eval('}') } catch (ex) { return ex; }`; return
+
     () -> Math
 
     () -> new Int8Array(1)
@@ -80,72 +81,133 @@ suite('coverage', () ->
     () -> new Float64Array(1)
   ]
 
-  test('generate chart', () ->
-    rows = [['javascript']]
+  checks = []
+  table = []
 
-    # Create header row
-    head = (func, names = []) ->
-      if names.length == 0
-        rows[0].push('type name')
-      else
-        rows[0].push("`#{names.join('.')}`")
-
+  do () ->
+    enumChecks = (func) ->
       for own subName, subFunc of func
-        if isAn.Function(subFunc)
-          head(subFunc, names.concat([subName]))
+        if typeof subFunc == 'function'
+          checks.push(subFunc)
+          enumChecks(subFunc)
 
-      return
-    head(isAn)
+    enumChecks(isAn)
 
-    # Result rows
-    for input in inputs
-      row = []
-      rows.push(row)
+    # javascript column
+    table.push(['x'])
+    for inputFunc in inputs
+      table.push([
+        inputFunc.toString().replace(/(\r|\n|\s)+/g, ' ').replace(/^function \(\) {\s*(?:return)?\s*(.*?)(?:;)?\s*}$/, '`$1`')
+      ])
 
-      # javascript value (extracted from function body)
-      row.push(input.toString().replace(/^function \(\) {\s*(?:return)?\s*(.*?)(?:;)?\s*}$/, '`$1`'))
 
-      # value
-      value = input()
+  # type column
+  test('typename', () ->
+    # heading
+    table[0].push('`isAn(x)`')
 
-      # Result cells
-      check = (func, names = []) ->
-        if names.length == 0
-          typeName = func(value)
-          row.push(if typeName then "`#{typeName}`" else '<undefined>')
-        else
-          row.push(if func(value) then 'TRUE' else '')
+    for inputFunc, iInput in inputs
+      typeName = isAn(inputFunc())
+      assert(isAn.String.Literal(typeName) or isAn.Undefined(typeName))
 
-        for own subName, subFunc of func
-          if isAn.Function(subFunc)
-            check(subFunc, names.concat([subName]))
+      table[1 + iInput].push(
+        if typeName? then typeName else '<undefined>'
+      )
 
-        return
+    return
+  )
 
-      check(isAn)
+  # check columns
+  do ->
+    for check in checks
+      do (check) ->
+        test("type: #{check.typeName}", () ->
+          table[0].push("`isAn.#{check.typeName}(x)`")
+          for inputFunc,iInput in inputs
+            isType = check(inputFunc())
+            assert(isAn.Boolean.Literal(isType))
 
-    columnWidths = rows[0].map(
-      (element, iColumn) ->
-        Math.max(
-          (
-            for row in rows
-              row[iColumn].length
-          )...
-        ) + 2
-    )
+            table[1 + iInput].push(
+              if isType then 'TRUE' else ''
+            )
 
+          return
+        )
+
+  suite('results tables', () ->
+    # string padd/truncate
     padd = (x, width, p = '                        ') ->
       while x.length < width
         x += p
       return x.slice(0, width)
 
-    for row,irow in rows
-      console.log(
-        row.map((element, iElement) -> padd(element, columnWidths[iElement])).join(' | ')
+    tableToString = (table) ->
+      # column widths
+      columnWidths = table[0].map(
+        (element, iColumn) ->
+          Math.max(
+            (
+              for row in table
+                row[iColumn].length
+            )...
+          ) + 2
       )
-      if irow == 0
-        console.log(columnWidths.map((width) -> padd('', width, '-')).join('-|-'))
 
-    #console.log(rows)
+      lines = []
+      for row, irow in table
+        lines.push(
+          row.map((element, iElement) -> padd(element, columnWidths[iElement])).join(' | ')
+        )
+        if irow == 0
+          lines.push(
+            columnWidths.map((width) -> padd('', width, '-')).join('-|-')
+          )
+      return lines.join('\r\n')
+
+    compareTable = (name, table) ->
+      resultTable = tableToString(table).trim().replace(/(\r\n)|(\r)|(\n)/, '\r\n')
+      error = null
+      try
+        inputTable = fs.readFileSync(path.join(__dirname, 'fixtures', name + '.md'), 'utf8').trim().replace(/(\r\n)|(\r)|(\n)/, '\r\n')
+      catch ex
+        error = ex
+        fs.writeFileSync(path.join(__dirname, 'fixtures', name + '.md'), resultTable, 'utf8')
+
+      if not error?
+        try
+          assert.equal(resultTable, inputTable)
+        catch ex
+          console.error(resultTable)
+          console.error()
+          throw ex
+
+    # main chart
+    test('complete', () ->
+      compareTable('complete', table)
+    )
+
+    for own typeName, check  of isAn
+      if typeof check == 'function'
+        do (typeName) ->
+          test("table: #{typeName}", () ->
+
+            groupTable = table.filter(
+              (row, iRow) ->
+                iRow == 0 or row[1] == typeName
+            )
+
+            groupTable = groupTable.map(
+              (row, iRow) ->
+                row.filter(
+                  (cell, iColumn) ->
+                    iColumn < 2 or groupTable.some((row, iRow) -> (iRow != 0 and row[iColumn] == 'TRUE'))
+                )
+            )
+
+            compareTable(typeName, groupTable)
+          )
+
+    return
   )
+
 )
